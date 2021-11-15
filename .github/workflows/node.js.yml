@@ -28,3 +28,19 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
+    # 部署到阿里云
+    - name: Deploy to Aliyun
+      uses: easingthemes/ssh-deploy@v2.1.1
+      env:
+        # 私钥
+        SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        # scp参数
+        ARGS: "-avzr --delete"
+        # 源目录，编译后生成的文件目录
+        SOURCE: "./dist"
+        # 服务器ip：换成你的服务器IP
+        REMOTE_HOST: "47.114.175.188"
+        # 用户
+        REMOTE_USER: "root"
+        # 目标地址 你在服务器上部署代码的地方
+        TARGET: "/home/ciTest/dist"
